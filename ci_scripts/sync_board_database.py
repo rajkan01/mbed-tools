@@ -19,7 +19,6 @@ from pathlib import Path
 from typing import NamedTuple, List
 
 from github import Github, GithubException
-
 from mbed_tools_ci_scripts.create_news_file import create_news_file, NewsType
 from mbed_tools_ci_scripts.utils import git_helpers
 from mbed_tools_ci_scripts.utils.configuration import configuration, ConfigurationVariable
@@ -118,8 +117,9 @@ def git_commit_and_push(files_to_commit: List[Path], branch_name: str, commit_ms
         temp_clone.checkout_branch(branch_name)
         temp_clone.add(files_to_commit)
         temp_clone.commit(commit_msg)
-        temp_clone.pull()
-        temp_clone.push()
+        temp_clone.repo.git.pull(rebase=True)
+        temp_clone.repo.git.rebase("master")
+        temp_clone.force_push()
 
 
 def raise_github_pr(pr_info: PullRequestInfo) -> None:
@@ -144,7 +144,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--verbose", "-v", action="count", default=0)
     parser.add_argument("--head-branch", default="sync-target-db")
     parser.add_argument("--base-branch", default="master")
-    parser.add_argument("--pr-subject", default="Update target database.")
+    parser.add_argument("--pr-subject", default="Update target database")
     parser.add_argument("--pr-description", default="")
     return parser.parse_args()
 
