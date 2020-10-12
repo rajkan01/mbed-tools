@@ -117,7 +117,7 @@ def git_commit_and_push(files_to_commit: List[Path], branch_name: str, commit_ms
         temp_clone.checkout_branch(branch_name)
         temp_clone.add(files_to_commit)
         temp_clone.commit(commit_msg)
-        temp_clone.repo.git.pull(rebase=True)
+        # temp_clone.repo.git.pull(rebase=True)
         temp_clone.repo.git.rebase("master")
         temp_clone.force_push()
 
