@@ -135,7 +135,7 @@ VARIABLE2=<value>
 ```
 
 Environment variables take precedence, meaning the values set in the file will be overriden	
-by any values previously set in your environment.	
+by any values previously set in your environment.
 
 **Warning**:
 Do not upload `.env` files containing private tokens to version control.
@@ -201,6 +201,26 @@ Use CMake to build your application:
     This generates two files in the build output directory (`cmake_build` in this example): HEX and BIN.
 
 1. Drag and drop the generated file to your board.
+
+
+## Mbed OS Configuration and building the project
+
+We can use a single command which will configure (set up your target and toolchain) and build the project.
+
+    1. To build and configure:
+
+    ```
+    mbed-tools build -m <target> -t <toolchain> -b <profile>
+    ```
+    - -t: The toolchain you are using to build your app
+    - -m: A build target for an Mbed-enabled device
+    - -b: The build type (release, develop or debug)
+
+    1. To perform a iterative build on previously configured target:
+
+    ```
+    mbed-tools build
+    ```
 
 ## Logging
 
